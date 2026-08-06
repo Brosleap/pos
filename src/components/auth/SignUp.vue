@@ -1,10 +1,10 @@
 <template>
-  <h1>Sign Up</h1>
+  <!-- <h1>Sign Up</h1>
   <button @click="goToDashboard">Go to Dashboard</button>
   <br />
   <br />
   <br />
-  <button @click="goToSignIn">Go to Sign In</button>
+  <button @click="goToSignIn">Go to Sign In</button> -->
 </template>
 
 <script setup>
