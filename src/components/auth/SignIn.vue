@@ -16,7 +16,7 @@ function goToDashboard() {
     router.replace('/dashboard')
 }
 
-// replace to a named route
+// replace to a named routenpm 
 function goToSignUp() {
     router.replace({ name: 'SignUp' })
 }
