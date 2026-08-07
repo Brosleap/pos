@@ -1,15 +1,16 @@
 import SignIn from "@/components/auth/SignIn.vue";
 import SignUp from "@/components/auth/SignUp.vue";
 import Dashboard from "@/components/pages/Dashboard.vue";
-
-
 import Navbar from "./components/includes/Navbar.vue";
 import Sidebar from "./components/includes/Sidebar.vue";
-​import Footer from "./components/includes/Footer.vue";
+import Footer from "./components/includes/Footer.vue";
+
+
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
-    path: "/",//
+    path: "/", //
+
     name: "SignIn",
     components: SignIn,
   },
@@ -25,8 +26,7 @@ const routes = [
       navbar: Navbar,
       sidebar: Sidebar,
       default: Dashboard,
-      footer: Footer,  
-
+      footer: Footer,
     },
   },
   { path: "/:pathMatch(.*)*", redirect: { name: "signin" } },
