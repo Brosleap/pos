@@ -5,19 +5,17 @@ import Navbar from "./components/includes/Navbar.vue";
 import Sidebar from "./components/includes/Sidebar.vue";
 import Footer from "./components/includes/Footer.vue";
 
-
 import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/", //
-
     name: "SignIn",
-    components: SignIn,
+    component: SignIn,
   },
   {
     path: "/signup",
     name: "SignUp",
-    components: SignUp,
+    component: SignUp,
   },
   {
     path: "/dashboard",
