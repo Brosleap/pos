@@ -50,10 +50,13 @@
 </template>
 
 <script setup>
-import Swal from "sweetalert2";
 import { useRouter } from "vue-router";
 import { reactive } from "vue";
+import { apiSignIn } from "@/functions/api/auth";
 import { LoadingModal, MessageModal, CloseModal } from "@/functions/swal";
+
+import { useUserStore } from "@/stores/user";
+const userStore = useUserStore();
 
 const router = useRouter();
 
@@ -76,8 +79,32 @@ function resetAllState() {
 }
 
 async function signIn() {
-    
-    
-    
+    try {
+        LoadingModal('Signing In...');
+        const response = await apiSignIn(user);
+        const { data } = response;
+
+        userStore.setState(data.user);
+        userStore.setSanctumToken(data.token);
+
+        resetAllState();
+        router.replace({ name: "Dashboard" });
+        return CloseModal();
+    } catch (error) {
+        const { response } = error;
+        if (!response) {
+            return MessageModal({ icon: "error", title: "Error", text: error.message });
+        }
+        const { status, data } = response;
+        if (status === 422) {
+            Object.keys(userError).forEach((key) => {
+                userError[key] = data.errors[key]
+                    ? data.errors[key][0]
+                    : "";
+            });
+            return CloseModal();
+        }
+        return MessageModal({ icon: "error", title: "Error", text: data.message });
+    }
 }
 </script>
