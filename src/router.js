@@ -6,6 +6,7 @@ import Sidebar from "./components/includes/Sidebar.vue";
 import Footer from "./components/includes/Footer.vue";
 
 import { createRouter, createWebHistory } from "vue-router";
+import Test from "./components/pages/Test.vue";
 const routes = [
   {
     path: "/", //
@@ -26,6 +27,23 @@ const routes = [
       default: Dashboard,
       footer: Footer,
     },
+    meta: {
+       guarded: true 
+      },
+  },
+  {
+    path: '/tests',
+        name: 'Tests',
+        components: {
+            navbar: Navbar,
+            sidebar: Sidebar,
+            footer: Footer,
+            default: Test,
+        },
+        meta: { 
+          guarded: true 
+        },//this line will tel us we can go after login
+
   },
   { path: "/:pathMatch(.*)*", redirect: { name: "signin" } },
 ];
