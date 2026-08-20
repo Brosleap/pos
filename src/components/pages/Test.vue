@@ -40,7 +40,7 @@
                   <td>{{ test.updater.name }}<br>{{ test.updated_at }}</td>
                   <td>
                     <button class="mx-1 btn btn-sm btn-info" @click="viewTest(test.id)">View</button>
-                    <button class="mx-1 btn btn-sm btn-danger" @click="removeTest(test.id)">Delete</button>
+                    <button class="mx-1 btn btn-sm btn-danger" @click="deleteTest(test.id)">Delete</button>
                   </td>
                 </tr>
               </tbody>
@@ -147,10 +147,10 @@ async function saveTest() {
     let response = null;
     if (testObj.id === null) {
       response = await apiCreateTest(testObj);
-      onTestCreated(response.data.test);
+      tests.value=[response.data.test, ...tests.value];
     } else {
       response = await apiUpdateTest(testObj);
-      onTestUpdated(response.data.test);
+      tests.value= tests.value.map(obj => obj.id !== response.data.test.id ? obj : response.data.test);
     }
     hideModal();
     return MessageModal({ icon: 'success', title: 'Success', text: response.data.message });
@@ -195,7 +195,7 @@ async  function viewTest(id){
 //     return MessageModal({ icon: "error", title: "Error", text: error.response?.data?.message || error.message });
 //   }
 // }
-async function removeTest(id) {
+ function deleteTest(id) {
   Swal.fire({
     title: 'Want to delete the test ?',
     text: "Please make a confirmation.",
@@ -206,10 +206,9 @@ async function removeTest(id) {
   }).then(async (sw) => {
     if (sw.isConfirmed) {
       try {
-        LoadingModal();
         const response = await apiDeleteTest(id);
-        onTestDeleted(response.data.test);
-        return MessageModal({ icon: 'success', title: 'Success', text: response.data.message });
+        tests.value = tests.value.filter((item) => item.id !==id);
+        
       } catch (error) {
         return MessageModal({ icon: "error", title: "Error", text: error.response?.data?.message || error.message });
       }
@@ -217,11 +216,12 @@ async function removeTest(id) {
   });
 }
 
-function hideModal() {
-  $('#TEST-MODAL').modal('hide');
-}
+
 function showModal() {
   $('#TEST-MODAL').modal('show');
+}
+function hideModal() {
+  $('#TEST-MODAL').modal('hide');
 }
 
 const onTestCreated = (test) => {
